@@ -1,135 +1,133 @@
-// -- 
-//  Private Helpers - type
+// --
+//  Private Helpers
 // --
 
-
-
-// -- 
-//  Private Helpers - fn 
-// --
-
-/*
-const _setNumber: _VariableSetNumber = async (name, value, collection) =>
+const _setNumber: _Variable_SetNumber_Fn = async ({ name, value, collection }) => 
 {
-    try {
-        const variable = await collection.createNumberVariable(name, value)
-        return variable ? { ok: true, variable } : { ok: false, variable: undefined }
-    } catch {
-        return { ok: false, variable: undefined }
-    }
+
+    const variable = await collection
+        .createNumberVariable(name, value)
+        .catch(() => undefined)
+
+    return variable
+        ? { ok: true, variable }
+        : { ok: false, variable: undefined }
 }
 
-const _setColor: _VariableSetColor = async (name, value, collection) =>
+const _setColor: _Variable_SetColor_Fn = async ({ name, value, collection }) => 
 {
-    try {
-        const variable = await collection.createColorVariable(name, value)
-        return variable ? { ok: true, variable } : { ok: false, variable: undefined }
-    } catch {
-        return { ok: false, variable: undefined }
-    }
+
+    const variable = await collection
+        .createColorVariable(name, value)
+        .catch(() => undefined)
+
+    return variable
+        ? { ok: true, variable }
+        : { ok: false, variable: undefined }
 }
 
-const _setFont: _VariableSetFont = async (name, value, collection) =>
+const _setFont: _Variable_SetFont_Fn = async ({ name, value, collection }) => 
 {
-    try {
-        const variable = await collection.createFontFamilyVariable(name, value)
-        return variable ? { ok: true, variable } : { ok: false, variable: undefined }
-    } catch {
-        return { ok: false, variable: undefined }
-    }
+    const variable = await collection
+        .createFontFamilyVariable(name, value)
+        .catch(() => undefined)
+
+    return variable
+        ? { ok: true, variable }
+        : { ok: false, variable: undefined }
 }
 
-const _setSize: _VariableSetSize = async (name, value, collection) =>
+const _setSize: _Variable_SetSize_Fn = async ({ name, value, collection }) => 
 {
-    try {
-        const variable = await collection.createSizeVariable(name, value)
-        return variable ? { ok: true, variable } : { ok: false, variable: undefined }
-    } catch {
-        return { ok: false, variable: undefined }
-    }
+    const variable = await collection
+        .createSizeVariable(name, value)
+        .catch(() => undefined)
+
+    return variable
+        ? { ok: true, variable }
+        : { ok: false, variable: undefined }
 }
 
-const _setPercentage: _VariableSetPercentage = async (name, value, collection) =>
+const _setPerc: _Variable_SetPerc_Fn = async ({ name, value, collection }) => 
 {
-    try {
-        const variable = await collection.createPercentageVariable(name, value)
-        return variable ? { ok: true, variable } : { ok: false, variable: undefined }
-    } catch {
-        return { ok: false, variable: undefined }
-    }
+    const variable = await collection
+        .createPercentageVariable(name, value)
+        .catch(() => undefined)
+
+    return variable
+        ? { ok: true, variable }
+        : { ok: false, variable: undefined }
 }
 
-const _getByName: _VariableGetByName = async (name, collection) =>
+const _getByName: _Variable_GetByName_Fn = async ({ name, collection }) => 
 {
-    try {
-        const variable = await collection.getVariableByName(name)
-        return variable ? { ok: true, variable } : { ok: false, variable: undefined }
-    } catch {
-        return { ok: false, variable: undefined }
-    }
+    const variable = await collection
+        .getVariableByName(name)
+        .catch(() => undefined)
+
+    return variable
+        ? { ok: true, variable }
+        : { ok: false, variable: undefined }
 }
 
-const _getById: _VariableGetById = async (id, collection) =>
+const _getById: _Variable_GetById_Fn = async ({ id, collection }) => 
 {
-    try {
-        const variable = await collection.getVariable(id)
-        return variable ? { ok: true, variable } : { ok: false, variable: undefined }
-    } catch {
-        return { ok: false, variable: undefined }
-    }
+    const variable = await collection
+        .getVariable(id)
+        .catch(() => undefined)
+
+    return variable
+        ? { ok: true, variable }
+        : { ok: false, variable: undefined }
 }
 
-const _getAll: _VariableGetAll = async (collection) =>
+const _getAll: _Variable_GetAll_Fn = async ({ collection }) => 
 {
-    try {
-        const variables = await collection.getAllVariables()
-        return variables ? { ok: true, variables } : { ok: false, variables: undefined }
-    } catch {
-        return { ok: false, variables: undefined }
-    }
+    const variables = await collection
+        .getAllVariables()
+        .catch(() => undefined)
+
+    return variables
+        ? { ok: true, variable: variables }
+        : { ok: false, variable: undefined }
 }
 
-const _delByName: _VariableDelByName = async (name, collection) =>
+const _delByName: _Variable_DelByName_Fn = async ({ name, collection }) => 
 {
-    try {
-        const variable = await collection.getVariableByName(name)
-        if (!variable) return { ok: false, variable: undefined }
+    const variable = await collection
+        .getVariableByName(name)
+        .catch(() => undefined)
 
-        const removed = await variable.remove()
-        return removed ? { ok: true, variable } : { ok: false, variable: undefined }
-    } catch {
-        return { ok: false, variable: undefined }
-    }
+    if (!variable) return { ok: false, variable: undefined }
+
+    const removed = await variable
+        .remove()
+        .catch(() => false)
+
+    return removed
+        ? { ok: true, variable }
+        : { ok: false, variable: undefined }
 }
 
-const _delById: _VariableDelById = async (id, collection) =>
+const _delById: _Variable_DelById_Fn = async ({ id, collection }) => 
 {
-    try {
-        const variable = await collection.getVariable(id)
-        if (!variable) return { ok: false, variable: undefined }
+    const variable = await collection
+        .getVariable(id)
+        .catch(() => undefined)
 
-        const removed = await variable.remove()
-        return removed ? { ok: true, variable } : { ok: false, variable: undefined }
-    } catch {
-        return { ok: false, variable: undefined }
-    }
-}
+    if (!variable) return { ok: false, variable: undefined }
 
-const _delAll: _VariableDelAll = async (collection) =>
-{
-    try {
-        const variables = await collection.getAllVariables()
-        if (!variables) return { ok: false, variable: undefined }
+    const removed = await variable
+        .remove()
+        .catch(() => false)
 
-        await Promise.all(variables.map((v) => v.remove()))
-        return { ok: true, variable: variables }
-    } catch {
-        return { ok: false, variable: undefined }
-    }
+    return removed
+        ? { ok: true, variable }
+        : { ok: false, variable: undefined }
 }
 
 // --
-// Public API - types
+// Public Api
 // --
 
 export type SetByName = (
@@ -143,4 +141,3 @@ export type SetByName = (
 // --
 // Public Api - fn
 // --
-*/

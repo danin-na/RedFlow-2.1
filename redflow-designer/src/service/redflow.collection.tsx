@@ -2,11 +2,10 @@
 //  Private Helpers
 // --
 
-
-const _setByName: _Collection_SetByName_Fn = async (options) => 
+const _setByName: _Collection_SetByName_Fn = async ({name}) => 
 {
     const collection = await webflow
-        .createVariableCollection(options.name)
+        .createVariableCollection(name)
         .catch(() => undefined)
 
     return collection
@@ -14,10 +13,10 @@ const _setByName: _Collection_SetByName_Fn = async (options) =>
         : { ok: false, collection: undefined }
 }
 
-const _getById: _Collection_GetById_Fn = async (options) =>
+const _getById: _Collection_GetById_Fn = async ({id}) =>
 {
     const collection = await webflow
-        .getVariableCollectionById(options.id)
+        .getVariableCollectionById(id)
         .catch(() => undefined)
 
     return collection
@@ -25,14 +24,14 @@ const _getById: _Collection_GetById_Fn = async (options) =>
         : { ok: false, collection: undefined }
 }
 
-const _getByName: _Collection_GetByName_Fn = async (options) =>
+const _getByName: _Collection_GetByName_Fn = async ({name}) =>
 {
     const all = await webflow
         .getAllVariableCollections()
         .catch(() => [] as VariableCollection[])
 
     for (const collection of all)
-        if ((await collection.getName()) === options.name)
+        if ((await collection.getName()) === name)
             return { ok: true, collection }
 
     return { ok: false, collection: undefined }
@@ -60,28 +59,29 @@ const _getAll: _Collection_GetAll_Fn = async () =>
         : { ok: false, collection: undefined }
 }
 
-const _delById: _Collection_DelById_Fn = async (options) =>
+const _delById: _Collection_DelById_Fn = async ({id}) =>
 {
     const ok = await webflow
-        .removeVariableCollection(options.id)
+        .removeVariableCollection(id)
         .catch(() => false)
 
     return { ok, collection: undefined }
 }
 
 // --
-// Public Api - fn
+// Public Api
 // --
 
 /**
  * @interface
  * ```ts
- * { name: string; fallback: 'if_exist_return_undefined' | 'if_exist_return_existing' }
+ * { name: string, fallback: 'if_exist_return_undefined' | 'if_exist_return_existing' }
  * ```
  * @returns 
  * ```ts
- * { ok: true; collection: VariableCollection } | { ok: false; collection: undefined }
+ * { ok: true, collection: VariableCollection } | { ok: false, collection: undefined }
  * ```
+ * @throws `it might throws error`. handel it using try-catch.
  */
 
 const setByName: Collection_SetByName_Fn = async (options) =>
@@ -110,12 +110,13 @@ const setByName: Collection_SetByName_Fn = async (options) =>
 /**
  * @interface
  * ```ts
- * { name: string; fallback: 'if_notExist_return_undefined' | 'if_notExist_return_newOne' }
+ * { name: string, fallback: 'if_notExist_return_undefined' | 'if_notExist_return_newOne' }
  * ```
  * @returns 
  * ```ts
- * { ok: true; collection: VariableCollection } | { ok: false; collection: undefined }
+ * { ok: true, collection: VariableCollection } | { ok: false, collection: undefined }
  * ```
+ * @throws `it might throws error`.  handel it using try-catch.
  */
 
 const getByName: Collection_GetByName_Fn = async (options) =>
