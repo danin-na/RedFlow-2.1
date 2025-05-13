@@ -206,6 +206,24 @@ const _updateByName: _Variable_Fn_UpdateByName = async ({ name, value, collectio
 
 // ------------- Public Api
 
+/**
+ * @type
+ * ```ts
+ * options: (
+ *   | { name: string; type: "number"; value: number | NumberVariable }
+ *   | { name: string; type: "color"; value: string | ColorVariable }
+ *   | { name: string; type: "font"; value: string | FontFamilyVariable }
+ *   | { name: string; type: "size"; value: SizeValue | SizeVariable }
+ *   | { name: string; type: "percentage"; value: number | PercentageVariable })
+ *   & { collection: VariableCollection, 
+ *       fallback: "if_exist_fail"| "if_exist_overwrite"| "if_exist_preserve" }
+ * ```
+ * @returns
+ * ```
+ * { ok: true; variable: Variable } | { ok: false; variable: undefined }
+ * ```
+ */
+
 const setByName: Variable_Fn_SetByName = async ({ name, type, value, collection, fallback }) =>
 {
     try {
@@ -233,6 +251,6 @@ const setByName: Variable_Fn_SetByName = async ({ name, type, value, collection,
     }
 };
 
+// ------------- Export
 
-// COMEPELETE THE CODE
-
+const variable = { setByName }

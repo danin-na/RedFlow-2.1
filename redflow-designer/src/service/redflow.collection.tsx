@@ -83,7 +83,7 @@ const _delById: _Collection_Fn_DelById = async ({ id }) =>
 // ------------- Public Api
 
 /**
- * @interface
+ * @type
  * ```ts
  * { name: string, fallback: 'if_exist_return' | 'if_exist_skip' }
  * ```
@@ -109,7 +109,7 @@ const setByName: Collection_Fn_SetByName = async ({ name, fallback }) =>
 }
 
 /**
- * @interface
+ * @type
  * ```ts
  * { name: string, fallback: 'if_!exist_create' | 'if_!exist_skip' }
  * ```
