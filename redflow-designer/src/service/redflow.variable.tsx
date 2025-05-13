@@ -2,7 +2,15 @@
 //  Private Helpers
 // --
 
-const _setNumber: _Variable_SetNumber_Fn = async ({ name, value, collection }) => 
+type _Variable_SetNumber_Opt = { name: string; value: number | NumberVariable; collection: VariableCollection }
+type _Variable_SetNumber_Res = { ok: true; variable: "sss" } | { ok: false; variable: undefined }
+type _Variable_SetNumber_Fn = (options: _Variable_SetNumber_Opt) => Promise<_Variable_SetNumber_Res>
+
+type _Variable_SetNumber_Fn2
+    = (name: string, value: number | NumberVariable, collection: VariableCollection)
+        => Promise<{ ok: true; variable: 'ssss' }>
+
+const _setNumber: _Variable_SetNumber_Fn2 = async (name, value, collection) => 
 {
 
     const variable = await collection
@@ -11,7 +19,7 @@ const _setNumber: _Variable_SetNumber_Fn = async ({ name, value, collection }) =
 
     return variable
         ? { ok: true, variable }
-        : { ok: false, variable: undefined }
+        : null
 }
 
 const _setColor: _Variable_SetColor_Fn = async ({ name, value, collection }) => 
