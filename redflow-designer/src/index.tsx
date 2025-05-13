@@ -19,27 +19,6 @@ const App: React.FC = () =>
     }
   };
 
-  async function test ()
-  {
-    const t1 = await collection.setByName('TEST', 'if_exist_return_existing')
-    const t2 = await collection.setByName('TEST', 'if_exist_return_existing')
-    const t3 = await collection.setByName('TEST', 'if_exist_return_undefined')
-
-    console.log(t1)
-    console.log(t2)
-    console.log(t3)
-
-    const p1 = await collection.getByName('TEST1', 'if_notExist_return_undefined')
-    const p2 = await collection.getByName('TEST1', 'if_notExist_return_newOne')
-    const p3 = await collection.getByName('TEST1', 'if_notExist_return_undefined')
-
-    console.log(p1)
-    console.log(p2)
-    console.log(p3)
-  }
-
-  test()
-
   return (
     <div>
       <h1>Welcome to My React App!</h1>

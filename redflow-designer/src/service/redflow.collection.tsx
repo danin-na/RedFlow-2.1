@@ -1,126 +1,144 @@
-// -- 
-//  Private Helpers - type
+// --
+//  Private Helpers
 // --
 
-type _SetByName = (name: string)
-    => Promise<{ ok: true, collection: VariableCollection } | { ok: false, collection: undefined }>
 
-type _GetById = (id: string)
-    => Promise<{ ok: true, collection: VariableCollection } | { ok: false, collection: undefined }>
-
-type _GetByName = (name: string)
-    => Promise<{ ok: true, collection: VariableCollection } | { ok: false, collection: undefined }>
-
-type _GetDefault = ()
-    => Promise<{ ok: true, collection: VariableCollection } | { ok: false, collection: undefined }>
-
-type _DelById = (id: string)
-    => Promise<{ ok: true, collection: VariableCollection } | { ok: false, collection: undefined }>
-
-type _GetAll = ()
-    => Promise<{ ok: true, collection: VariableCollection[] } | { ok: false, collection: undefined }>
-
-// -- 
-//  Private Helpers - fn
-// --
-
-const _setByName: _SetByName = async (name) =>
+const _setByName: _Collection_SetByName_Fn = async (options) => 
 {
-    try {
-        const collection = await webflow.createVariableCollection(name)
-        return collection ? { ok: true, collection } : { ok: false, collection: undefined }
-    } catch {
-        return { ok: false, collection: undefined }
-    }
+    const collection = await webflow
+        .createVariableCollection(options.name)
+        .catch(() => undefined)
+
+    return collection
+        ? { ok: true, collection }
+        : { ok: false, collection: undefined }
 }
 
-const _getById: _GetById = async (id) =>
+const _getById: _Collection_GetById_Fn = async (options) =>
 {
-    try {
-        const collection = await webflow.getVariableCollectionById(id)
-        return collection ? { ok: true, collection } : { ok: false, collection: undefined }
-    } catch {
-        return { ok: false, collection: undefined }
-    }
+    const collection = await webflow
+        .getVariableCollectionById(options.id)
+        .catch(() => undefined)
+
+    return collection
+        ? { ok: true, collection }
+        : { ok: false, collection: undefined }
 }
 
-const _getByName: _GetByName = async (name) =>
+const _getByName: _Collection_GetByName_Fn = async (options) =>
 {
-    try {
-        const all = await webflow.getAllVariableCollections()
-        for (const col of all) if ((await col.getName()) === name) return { ok: true, collection: col }
-        return { ok: false, collection: undefined }
-    } catch {
-        return { ok: false, collection: undefined }
-    }
+    const all = await webflow
+        .getAllVariableCollections()
+        .catch(() => [] as VariableCollection[])
+
+    for (const collection of all)
+        if ((await collection.getName()) === options.name)
+            return { ok: true, collection }
+
+    return { ok: false, collection: undefined }
 }
 
-const _getDefault: _GetDefault = async () =>
+const _getDefault: _Collection_GetDefault_Fn = async () =>
 {
-    try {
-        const collection = await webflow.getDefaultVariableCollection()
-        return collection ? { ok: true, collection } : { ok: false, collection: undefined }
-    } catch {
-        return { ok: false, collection: undefined }
-    }
+    const collection = await webflow
+        .getDefaultVariableCollection()
+        .catch(() => undefined)
+
+    return collection
+        ? { ok: true, collection }
+        : { ok: false, collection: undefined }
 }
 
-const _getAll: _GetAll = async () =>
+const _getAll: _Collection_GetAll_Fn = async () =>
 {
-    try {
-        const collections = await webflow.getAllVariableCollections()
-        return collections ? { ok: true, collection: collections } : { ok: false, collection: undefined }
-    } catch {
-        return { ok: false, collection: undefined }
-    }
+    const collections = await webflow
+        .getAllVariableCollections()
+        .catch(() => undefined)
+
+    return collections
+        ? { ok: true, collection: collections }
+        : { ok: false, collection: undefined }
 }
 
-const _delById: _DelById = async (id) =>
+const _delById: _Collection_DelById_Fn = async (options) =>
 {
-    try {
-        const ok = await webflow.removeVariableCollection(id)
-        return ok ? { ok: true, collection: undefined } : { ok: false, collection: undefined }
-    } catch {
-        return { ok: false, collection: undefined }
-    }
+    const ok = await webflow
+        .removeVariableCollection(options.id)
+        .catch(() => false)
+
+    return { ok, collection: undefined }
 }
-
-// --
-// Public Api - type
-// --
-
-type SetByName = (name: string, fallback: 'if_exist_return_undefined' | 'if_exist_return_existing')
-    => Promise<{ ok: true, collection: VariableCollection } | { ok: false, collection: undefined }>
-
-type GetByName = (name: string, fallback: 'if_notExist_return_undefined' | 'if_notExist_return_newOne')
-    => Promise<{ ok: true, collection: VariableCollection } | { ok: false, collection: undefined }>
 
 // --
 // Public Api - fn
 // --
 
-const setByName: SetByName = async (name, fallback) =>
+/**
+ * @interface
+ * ```ts
+ * { name: string; fallback: 'if_exist_return_undefined' | 'if_exist_return_existing' }
+ * ```
+ * @returns 
+ * ```ts
+ * { ok: true; collection: VariableCollection } | { ok: false; collection: undefined }
+ * ```
+ */
+
+const setByName: Collection_SetByName_Fn = async (options) =>
 {
-    try {
-        const existing = await _getByName(name)
-        if (!existing.ok) return await _setByName(name)
-        if (fallback === 'if_exist_return_existing') return { ok: true, collection: existing.collection }
-        if (fallback === 'if_exist_return_undefined') return { ok: false, collection: undefined }
-    } catch {
-        return { ok: false, collection: undefined }
+    const existing = await _getByName({ name: options.name })
+        .catch(() => ({ ok: false, collection: undefined }))
+
+    // If Not Exist : SetByName
+
+    if (!existing.ok) return await _setByName({ name: options.name })
+
+    // If Exist : Fallback
+
+    switch (options.fallback) {
+        case 'if_exist_return_existing':
+            return { ok: true, collection: existing.collection }
+
+        case 'if_exist_return_undefined':
+            return { ok: false, collection: undefined }
+
+        default:
+            return { ok: false, collection: undefined }
     }
 }
 
-const getByName: GetByName = async (name, fallback) =>
+/**
+ * @interface
+ * ```ts
+ * { name: string; fallback: 'if_notExist_return_undefined' | 'if_notExist_return_newOne' }
+ * ```
+ * @returns 
+ * ```ts
+ * { ok: true; collection: VariableCollection } | { ok: false; collection: undefined }
+ * ```
+ */
+
+const getByName: Collection_GetByName_Fn = async (options) =>
 {
-    try {
-        const existing = await _getByName(name)
-        if (existing.ok) { return { ok: true, collection: existing.collection } }
-        if (fallback === 'if_notExist_return_newOne') return await _setByName(name)
-        if (fallback === 'if_notExist_return_undefined') return { ok: false, collection: undefined }
-    } catch {
-        return { ok: false, collection: undefined }
+    const existing = await _getByName({ name: options.name })
+        .catch(() => ({ ok: false, collection: undefined }))
+
+    // If Exist : GetByName
+
+    if (existing.ok) return { ok: true, collection: existing.collection }
+
+    // If Not Exist : Fallback
+
+    switch (options.fallback) {
+        case 'if_notExist_return_newOne':
+            return await _setByName(options)
+
+        case 'if_notExist_return_undefined':
+            return { ok: false, collection: undefined }
+
+        default:
+            return { ok: false, collection: undefined }
     }
 }
 
-export const collection = { setByName, getByName } 
+export const collection = { setByName, getByName }

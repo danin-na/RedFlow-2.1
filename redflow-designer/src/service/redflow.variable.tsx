@@ -2,57 +2,13 @@
 //  Private Helpers - type
 // --
 
-type _VariableSetNumber = (
-    name: string,
-    value: number | NumberVariable,
-    collection: VariableCollection) => Promise<{ ok: true; variable: Variable } | { ok: false; variable: undefined }>
 
-type _VariableSetColor = (
-    name: string,
-    value: string | ColorVariable,
-    collection: VariableCollection) => Promise<{ ok: true; variable: Variable } | { ok: false; variable: undefined }>
-
-type _VariableSetFont = (
-    name: string,
-    value: string | FontFamilyVariable,
-    collection: VariableCollection) => Promise<{ ok: true; variable: Variable } | { ok: false; variable: undefined }>
-
-type _VariableSetSize = (
-    name: string,
-    value: SizeValue | SizeVariable,
-    collection: VariableCollection) => Promise<{ ok: true; variable: Variable } | { ok: false; variable: undefined }>
-
-type _VariableSetPercentage = (
-    name: string,
-    value: number | PercentageVariable,
-    collection: VariableCollection) => Promise<{ ok: true; variable: Variable } | { ok: false; variable: undefined }>
-
-type _VariableGetByName = (
-    name: string,
-    collection: VariableCollection) => Promise<{ ok: true; variable: Variable } | { ok: false; variable: undefined }>
-
-type _VariableGetById = (
-    id: VariableId,
-    collection: VariableCollection) => Promise<{ ok: true; variable: Variable } | { ok: false; variable: undefined }>
-
-type _VariableDelByName = (
-    name: string,
-    collection: VariableCollection) => Promise<{ ok: true; variable: Variable } | { ok: false; variable: undefined }>
-
-type _VariableDelById = (
-    id: VariableId,
-    collection: VariableCollection) => Promise<{ ok: true; variable: Variable } | { ok: false; variable: undefined }>
-
-type _VariableDelAll = (
-    collection: VariableCollection) => Promise<{ ok: true; variable: Variable[] } | { ok: false; variable: undefined }>
-
-type _VariableGetAll = (
-    collection: VariableCollection) => Promise<{ ok: true; variables: Variable[] } | { ok: false; variables: undefined }>
 
 // -- 
 //  Private Helpers - fn 
 // --
 
+/*
 const _setNumber: _VariableSetNumber = async (name, value, collection) =>
 {
     try {
@@ -173,11 +129,18 @@ const _delAll: _VariableDelAll = async (collection) =>
 }
 
 // --
-// Public Api - type
+// Public API - types
 // --
 
-
+export type SetByName = (
+    name: string,
+    value: number | NumberVariable | string | ColorVariable | FontFamilyVariable | SizeValue | SizeVariable | PercentageVariable,
+    type: 'number' | 'color' | 'font' | 'size' | 'percentage',
+    collection: VariableCollection,
+    fallback: 'if_exist_return_undefined' | 'if_exist_update_existing'
+) => Promise<{ ok: true; variable: Variable } | { ok: false; variable: undefined }>;
 
 // --
 // Public Api - fn
 // --
+*/
