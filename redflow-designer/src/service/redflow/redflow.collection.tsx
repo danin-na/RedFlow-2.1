@@ -13,8 +13,8 @@ type _Collection_Fn_GetAll = () => Promise<Collection_Res_Array>
 type _Collection_Fn_DelById = (options: { id: string }) => Promise<Collection_Res_Single>
 
 // Public Api
-type Collection_Fn_SetByName = (options: { name: string, fallback: "if_exist_skip" | "if_exist_return" }) => Promise<Collection_Res_Single>
-type Collection_Fn_GetByName = (options: { name: string, fallback: "if_!exist_skip" | "if_!exist_create" }) => Promise<Collection_Res_Single>
+type Collection_Fn_SetByName = (options: { name: string, fallback: "if_exist_fail" | "if_exist_preserve" }) => Promise<Collection_Res_Single>
+type Collection_Fn_GetByName = (options: { name: string, fallback: "if_notExist_fail" | "if_notExist_create" }) => Promise<Collection_Res_Single>
 
 // ------------- Private Helpers
 
@@ -85,7 +85,7 @@ const _delById: _Collection_Fn_DelById = async ({ id }) =>
 /**
  * @type
  * ```ts
- * { name: string, fallback: 'if_exist_return' | 'if_exist_skip' }
+ * { name: string, fallback: 'if_exist_preserve' | 'if_exist_fail' }
  * ```
  * @returns
  * ```ts
@@ -99,8 +99,8 @@ const setByName: Collection_Fn_SetByName = async ({ name, fallback }) =>
         const existing = await _getByName({ name })
         if (!existing.ok) return await _setByName({ name }) // If Not Exist -> SetByName
         switch (fallback) { // If Exist -> Fallback
-            case "if_exist_return": return { ok: true, collection: existing.collection }
-            case "if_exist_skip": return { ok: false, collection: undefined }
+            case "if_exist_preserve": return { ok: true, collection: existing.collection }
+            case "if_exist_fail": return { ok: false, collection: undefined }
             default: return { ok: false, collection: undefined }
         }
     } catch {
@@ -111,7 +111,7 @@ const setByName: Collection_Fn_SetByName = async ({ name, fallback }) =>
 /**
  * @type
  * ```ts
- * { name: string, fallback: 'if_!exist_create' | 'if_!exist_skip' }
+ * { name: string, fallback: 'if_!exist_create' | 'if_notExist_fail' }
  * ```
  * @returns
  * ```ts
@@ -125,8 +125,8 @@ const getByName: Collection_Fn_GetByName = async ({ name, fallback }) =>
         const { ok, collection } = await _getByName({ name })
         if (ok) return { ok: true, collection } // If Exist -> Return
         switch (fallback) { // If Not Exist -> Fallback
-            case "if_!exist_create": return await _setByName({ name })
-            case "if_!exist_skip": return { ok: false, collection: undefined }
+            case "if_notExist_create": return await _setByName({ name })
+            case "if_notExist_fail": return { ok: false, collection: undefined }
             default:
                 return { ok: false, collection: undefined }
         }

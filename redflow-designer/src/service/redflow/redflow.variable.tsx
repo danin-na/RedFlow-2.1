@@ -228,23 +228,21 @@ const setByName: Variable_Fn_SetByName = async ({ name, type, value, collection,
 {
     try {
         const existing = await _getByName({ name, collection });
-        if (!existing.ok) {// If Not Exist -> SetByName
+        if (!existing.ok) { // If Not Exist -> SetByName
             switch (type) {
                 case "number": return await _setNumber({ name, value: value as number | NumberVariable, collection });
                 case "color": return await _setColor({ name, value: value as string | ColorVariable, collection });
                 case "font": return await _setFont({ name, value: value as string | FontFamilyVariable, collection });
                 case "size": return await _setSize({ name, value: value as SizeValue | SizeVariable, collection });
                 case "percentage": return await _setPerc({ name, value: value as number | PercentageVariable, collection });
-                default:
-                    return { ok: false, variable: undefined };
+                default: return { ok: false, variable: undefined };
             }
         }
         switch (fallback) { // If Exist -> Fallback
             case "if_exist_overwrite": return await _updateByName({ name, value, collection });
             case "if_exist_preserve": return { ok: true, variable: existing.variable }
             case "if_exist_fail": return { ok: false, variable: undefined }
-            default:
-                return { ok: false, variable: undefined };
+            default: return { ok: false, variable: undefined };
         }
     } catch {
         return { ok: false, variable: undefined };
@@ -253,4 +251,4 @@ const setByName: Variable_Fn_SetByName = async ({ name, type, value, collection,
 
 // ------------- Export
 
-const variable = { setByName }
+export const variable = { setByName }
