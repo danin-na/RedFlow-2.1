@@ -1,151 +1,238 @@
-// --
-//  Private Helpers
-// --
+// ------------- Types
 
-type _Variable_SetNumber_Opt = { name: string; value: number | NumberVariable; collection: VariableCollection }
-type _Variable_SetNumber_Res = { ok: true; variable: "sss" } | { ok: false; variable: undefined }
-type _Variable_SetNumber_Fn = (options: _Variable_SetNumber_Opt) => Promise<_Variable_SetNumber_Res>
+// Promise
+type Variable_Res_Single = { ok: true; variable: Variable } | { ok: false; variable: undefined }
+type Variable_Res_Array = { ok: true; variable: Variable[] } | { ok: false; variable: undefined }
+type VariableValue = number | string | SizeValue | NumberVariable | ColorVariable | FontFamilyVariable | SizeVariable | PercentageVariable
 
-type _Variable_SetNumber_Fn2
-    = (name: string, value: number | NumberVariable, collection: VariableCollection)
-        => Promise<{ ok: true; variable: 'ssss' }>
+// Private Helpers
+type _Variable_Fn_SetNumber = (options: {
+    name: string
+    value: number | NumberVariable
+    collection: VariableCollection
+}) => Promise<Variable_Res_Single>
 
-const _setNumber: _Variable_SetNumber_Fn2 = async (name, value, collection) => 
-{
+type _Variable_Fn_SetColor = (options: {
+    name: string
+    value: string | ColorVariable
+    collection: VariableCollection
+}) => Promise<Variable_Res_Single>
 
-    const variable = await collection
-        .createNumberVariable(name, value)
-        .catch(() => undefined)
+type _Variable_Fn_SetFont = (options: {
+    name: string
+    value: string | FontFamilyVariable
+    collection: VariableCollection
+}) => Promise<Variable_Res_Single>
 
-    return variable
-        ? { ok: true, variable }
-        : null
-}
+type _Variable_Fn_SetSize = (options: {
+    name: string
+    value: SizeValue | SizeVariable
+    collection: VariableCollection
+}) => Promise<Variable_Res_Single>
 
-const _setColor: _Variable_SetColor_Fn = async ({ name, value, collection }) => 
-{
+type _Variable_Fn_SetPerc = (options: {
+    name: string
+    value: number | PercentageVariable
+    collection: VariableCollection
+}) => Promise<Variable_Res_Single>
 
-    const variable = await collection
-        .createColorVariable(name, value)
-        .catch(() => undefined)
+type _Variable_Fn_GetByName = (options: {
+    name: string
+    collection: VariableCollection
+}) => Promise<Variable_Res_Single>
 
-    return variable
-        ? { ok: true, variable }
-        : { ok: false, variable: undefined }
-}
+type _Variable_Fn_GetById = (options: {
+    id: VariableId
+    collection: VariableCollection
+}) => Promise<Variable_Res_Single>
 
-const _setFont: _Variable_SetFont_Fn = async ({ name, value, collection }) => 
-{
-    const variable = await collection
-        .createFontFamilyVariable(name, value)
-        .catch(() => undefined)
+type _Variable_Fn_GetAll = (options: {
+    collection: VariableCollection
+}) => Promise<Variable_Res_Array>
 
-    return variable
-        ? { ok: true, variable }
-        : { ok: false, variable: undefined }
-}
+type _Variable_Fn_DelByName = (options: {
+    name: string
+    collection: VariableCollection
+}) => Promise<Variable_Res_Single>
 
-const _setSize: _Variable_SetSize_Fn = async ({ name, value, collection }) => 
-{
-    const variable = await collection
-        .createSizeVariable(name, value)
-        .catch(() => undefined)
+type _Variable_Fn_DelById = (options: {
+    id: VariableId
+    collection: VariableCollection
+}) => Promise<Variable_Res_Single>
 
-    return variable
-        ? { ok: true, variable }
-        : { ok: false, variable: undefined }
-}
+type _Variable_Fn_UpdateByName = (options: {
+    name: string
+    value: VariableValue
+    collection: VariableCollection
+}) => Promise<Variable_Res_Single>
 
-const _setPerc: _Variable_SetPerc_Fn = async ({ name, value, collection }) => 
-{
-    const variable = await collection
-        .createPercentageVariable(name, value)
-        .catch(() => undefined)
-
-    return variable
-        ? { ok: true, variable }
-        : { ok: false, variable: undefined }
-}
-
-const _getByName: _Variable_GetByName_Fn = async ({ name, collection }) => 
-{
-    const variable = await collection
-        .getVariableByName(name)
-        .catch(() => undefined)
-
-    return variable
-        ? { ok: true, variable }
-        : { ok: false, variable: undefined }
-}
-
-const _getById: _Variable_GetById_Fn = async ({ id, collection }) => 
-{
-    const variable = await collection
-        .getVariable(id)
-        .catch(() => undefined)
-
-    return variable
-        ? { ok: true, variable }
-        : { ok: false, variable: undefined }
-}
-
-const _getAll: _Variable_GetAll_Fn = async ({ collection }) => 
-{
-    const variables = await collection
-        .getAllVariables()
-        .catch(() => undefined)
-
-    return variables
-        ? { ok: true, variable: variables }
-        : { ok: false, variable: undefined }
-}
-
-const _delByName: _Variable_DelByName_Fn = async ({ name, collection }) => 
-{
-    const variable = await collection
-        .getVariableByName(name)
-        .catch(() => undefined)
-
-    if (!variable) return { ok: false, variable: undefined }
-
-    const removed = await variable
-        .remove()
-        .catch(() => false)
-
-    return removed
-        ? { ok: true, variable }
-        : { ok: false, variable: undefined }
-}
-
-const _delById: _Variable_DelById_Fn = async ({ id, collection }) => 
-{
-    const variable = await collection
-        .getVariable(id)
-        .catch(() => undefined)
-
-    if (!variable) return { ok: false, variable: undefined }
-
-    const removed = await variable
-        .remove()
-        .catch(() => false)
-
-    return removed
-        ? { ok: true, variable }
-        : { ok: false, variable: undefined }
-}
-
-// --
 // Public Api
-// --
+export type Variable_Fn_SetByName = (options: (
+    | { name: string; type: "number"; value: number | NumberVariable }
+    | { name: string; type: "color"; value: string | ColorVariable }
+    | { name: string; type: "font"; value: string | FontFamilyVariable }
+    | { name: string; type: "size"; value: SizeValue | SizeVariable }
+    | { name: string; type: "percentage"; value: number | PercentageVariable })
+    & {
+        collection: VariableCollection,
+        fallback:
+        | "if_exist_fail"
+        | "if_exist_overwrite"
+        | "if_exist_preserve"
+    }
+) => Promise<Variable_Res_Single>
 
-export type SetByName = (
-    name: string,
-    value: number | NumberVariable | string | ColorVariable | FontFamilyVariable | SizeValue | SizeVariable | PercentageVariable,
-    type: 'number' | 'color' | 'font' | 'size' | 'percentage',
-    collection: VariableCollection,
-    fallback: 'if_exist_return_undefined' | 'if_exist_update_existing'
-) => Promise<{ ok: true; variable: Variable } | { ok: false; variable: undefined }>;
+// ------------- Private Helpers
 
-// --
-// Public Api - fn
-// --
+const _setNumber: _Variable_Fn_SetNumber = async ({ name, value, collection }) =>
+{
+    try {
+        const variable = await collection.createNumberVariable(name, value)
+        if (variable) return { ok: true, variable }
+        return { ok: false, variable: undefined }
+    } catch {
+        return { ok: false, variable: undefined }
+    }
+}
+const _setColor: _Variable_Fn_SetColor = async ({ name, value, collection }) =>
+{
+    try {
+        const variable = await collection.createColorVariable(name, value)
+        if (variable) return { ok: true, variable }
+        return { ok: false, variable: undefined }
+    } catch {
+        return { ok: false, variable: undefined }
+    }
+}
+const _setFont: _Variable_Fn_SetFont = async ({ name, value, collection }) =>
+{
+    try {
+        const variable = await collection.createFontFamilyVariable(name, value)
+        if (variable) return { ok: true, variable }
+        return { ok: false, variable: undefined }
+    } catch {
+        return { ok: false, variable: undefined }
+    }
+}
+const _setSize: _Variable_Fn_SetSize = async ({ name, value, collection }) =>
+{
+    try {
+        const variable = await collection.createSizeVariable(name, value)
+        if (variable) return { ok: true, variable }
+        return { ok: false, variable: undefined }
+    } catch {
+        return { ok: false, variable: undefined }
+    }
+}
+const _setPerc: _Variable_Fn_SetPerc = async ({ name, value, collection }) =>
+{
+    try {
+        const variable = await collection.createPercentageVariable(name, value)
+        if (variable) return { ok: true, variable }
+        return { ok: false, variable: undefined }
+    } catch {
+        return { ok: false, variable: undefined }
+    }
+}
+const _getByName: _Variable_Fn_GetByName = async ({ name, collection }) =>
+{
+    try {
+        const variable = await collection.getVariableByName(name)
+        if (variable) return { ok: true, variable }
+        return { ok: false, variable: undefined }
+    } catch {
+        return { ok: false, variable: undefined }
+    }
+}
+const _getById: _Variable_Fn_GetById = async ({ id, collection }) =>
+{
+    try {
+        const variable = await collection.getVariable(id)
+        if (variable) return { ok: true, variable }
+        return { ok: false, variable: undefined }
+    } catch {
+        return { ok: false, variable: undefined }
+    }
+}
+const _getAll: _Variable_Fn_GetAll = async ({ collection }) =>
+{
+    try {
+        const variables = await collection.getAllVariables()
+        if (variables) return { ok: true, variable: variables }
+        return { ok: false, variable: undefined }
+    } catch {
+        return { ok: false, variable: undefined }
+    }
+}
+const _delByName: _Variable_Fn_DelByName = async ({ name, collection }) =>
+{
+    try {
+        const variable = await collection.getVariableByName(name)
+        if (!variable) return { ok: false, variable: undefined }
+        const removed = await variable.remove()
+        if (removed) return { ok: true, variable }
+        return { ok: false, variable: undefined }
+    } catch {
+        return { ok: false, variable: undefined }
+    }
+}
+const _delById: _Variable_Fn_DelById = async ({ id, collection }) =>
+{
+    try {
+        const variable = await collection.getVariable(id)
+        if (!variable) return { ok: false, variable: undefined }
+        const removed = await variable.remove()
+        if (removed) return { ok: true, variable }
+        return { ok: false, variable: undefined }
+    } catch {
+        return { ok: false, variable: undefined }
+    }
+}
+const _updateByName: _Variable_Fn_UpdateByName = async ({ name, value, collection }) =>
+{
+    try {
+        const variable = await collection.getVariableByName(name)
+        if (!variable) return { ok: false, variable: undefined }
+        if (variable.type === 'Color') await variable.set(value as string | ColorVariable)
+        if (variable.type === 'Number') await variable.set(value as number | NumberVariable)
+        if (variable.type === 'Size') await variable.set(value as SizeValue | SizeVariable)
+        if (variable.type === 'FontFamily') await variable.set(value as string | FontFamilyVariable)
+        if (variable.type === 'Percentage') await variable.set(value as number | PercentageVariable)
+        return { ok: true, variable: await collection.getVariableByName(name) }
+    } catch {
+        return { ok: false, variable: undefined }
+    }
+}
+
+// ------------- Public Api
+
+const setByName: Variable_Fn_SetByName = async ({ name, type, value, collection, fallback }) =>
+{
+    try {
+        const existing = await _getByName({ name, collection });
+        if (!existing.ok) {// If Not Exist -> SetByName
+            switch (type) {
+                case "number": return await _setNumber({ name, value: value as number | NumberVariable, collection });
+                case "color": return await _setColor({ name, value: value as string | ColorVariable, collection });
+                case "font": return await _setFont({ name, value: value as string | FontFamilyVariable, collection });
+                case "size": return await _setSize({ name, value: value as SizeValue | SizeVariable, collection });
+                case "percentage": return await _setPerc({ name, value: value as number | PercentageVariable, collection });
+                default:
+                    return { ok: false, variable: undefined };
+            }
+        }
+        switch (fallback) { // If Exist -> Fallback
+            case "if_exist_overwrite": return await _updateByName({ name, value, collection });
+            case "if_exist_preserve": return { ok: true, variable: existing.variable }
+            case "if_exist_fail": return { ok: false, variable: undefined }
+            default:
+                return { ok: false, variable: undefined };
+        }
+    } catch {
+        return { ok: false, variable: undefined };
+    }
+};
+
+
+// COMEPELETE THE CODE
+

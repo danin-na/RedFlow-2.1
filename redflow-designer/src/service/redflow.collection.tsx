@@ -3,6 +3,7 @@
 // Promise
 type Collection_Res_Single = { ok: true, collection: VariableCollection } | { ok: false, collection: undefined }
 type Collection_Res_Array = { ok: true, collection: VariableCollection[] } | { ok: false, collection: undefined }
+
 // Private Helpers
 type _Collection_Fn_SetByName = (options: { name: string }) => Promise<Collection_Res_Single>
 type _Collection_Fn_GetById = (options: { id: string }) => Promise<Collection_Res_Single>
@@ -10,6 +11,7 @@ type _Collection_Fn_GetByName = (options: { name: string }) => Promise<Collectio
 type _Collection_Fn_GetDefault = () => Promise<Collection_Res_Single>
 type _Collection_Fn_GetAll = () => Promise<Collection_Res_Array>
 type _Collection_Fn_DelById = (options: { id: string }) => Promise<Collection_Res_Single>
+
 // Public Api
 type Collection_Fn_SetByName = (options: { name: string, fallback: "if_exist_skip" | "if_exist_return" }) => Promise<Collection_Res_Single>
 type Collection_Fn_GetByName = (options: { name: string, fallback: "if_!exist_skip" | "if_!exist_create" }) => Promise<Collection_Res_Single>
