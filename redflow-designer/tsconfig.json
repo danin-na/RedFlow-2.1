@@ -5,17 +5,18 @@
     "lib": ["es6", "dom"],
     "typeRoots": ["./node_modules/@types", "./node_modules/@webflow"],
     "jsx": "react",
+    "module": "ESNext", //
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true, // to get Shadcn working
-    "module": "ESNext", // to get Shadcn working
-    "moduleResolution": "node", // to get Shadcn working
+    "moduleResolution": "node", //
     "baseUrl": "./",
     "paths": {
+      "@/*": ["*"],
       "react": ["node_modules/react"],
       "react-dom": ["node_modules/react-dom"],
-      "@/*": ["./*"]
-    }
+    },
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["node_modules"]
 }
+
+// "allowSyntheticDefaultImports": true, // to get Shadcn working

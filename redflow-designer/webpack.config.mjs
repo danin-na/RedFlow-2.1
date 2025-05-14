@@ -12,6 +12,7 @@ export default {
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".json"],
+    alias: { "@": path.resolve(dirname, ".") },
   },
   module: {
     rules: [
