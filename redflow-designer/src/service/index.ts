@@ -1,4 +1,4 @@
-import { collection } from './redflow/redflow.collection'
-import { variable } from "./redflow/redflow.variable"
+//import { collection } from './webflow/collection'
+import { variable } from "./webflow/variable"
 
-export const redflow = { collection, variable }
+// export const webflow = { collection, variable }

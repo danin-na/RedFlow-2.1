@@ -1,21 +1,18 @@
 import path from "path";
 import { fileURLToPath } from "url";
 
-// ✅ Compute these once:
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const filename = fileURLToPath(import.meta.url);
+const dirname = path.dirname(filename);
 
 export default {
   entry: "./src/index.tsx",
   output: {
     filename: "bundle.js",
-    path: path.resolve(__dirname, "public"),
+    path: path.resolve(dirname, "public"),
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".json"],
-    alias: {
-      "@": path.resolve(__dirname, ".")
-    },
+    alias: { "@": path.resolve(dirname, ".") },
   },
   module: {
     rules: [
@@ -31,7 +28,7 @@ export default {
     ],
   },
   devServer: {
-    static: { directory: path.resolve(__dirname, "public") },
+    static: { directory: path.resolve(dirname, "public") },
     compress: true,
     port: 3000,
   },

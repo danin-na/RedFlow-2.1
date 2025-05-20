@@ -1,13 +1,16 @@
 {
   "compilerOptions": {
     "outDir": "public",
+    "strictNullChecks": true, //
+    "strict": true, // 
     "target": "es6",
     "lib": ["es6", "dom"],
     "typeRoots": ["./node_modules/@types", "./node_modules/@webflow"],
-    "jsx": "react",
-    "module": "ESNext", //
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "module": "ESNext", // shadcn need it
     "esModuleInterop": true,
-    "moduleResolution": "node", //
+    "moduleResolution": "node", // shadcn need it
     "baseUrl": "./",
     "paths": {
       "@/*": ["*"],

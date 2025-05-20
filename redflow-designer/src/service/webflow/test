@@ -1,0 +1,80 @@
+
+// ------------- Public Api
+
+// Public Api
+type Collection_Fn_SetByName
+    = (options: { name: string, fallback: "if_exist_fail" | "if_exist_preserve" })
+        => Promise<VariableCollection>
+
+type Collection_Fn_GetByName
+    = (options: { name: string, fallback: "if_notExist_fail" | "if_notExist_create" })
+        => Promise<VariableCollection>
+
+type Collection_Fn_DelByName
+    = (options: { name: string, fallback: 'if_notExist_fail' | 'if_notExist_ignore' })
+        => Promise<VariableCollection | undefined>
+/*
+
+const setByName: Collection_Fn_SetByName = async ({ name, fallback }) =>
+{
+    const collection = await _getByName({ name })
+    collection.
+        if(!collection) return await _setByName({ name }) // If not found, create it (happy-path)
+    if (fallback === "if_exist_preserve") return collection
+    if (fallback === "if_exist_fail") throw new Error(`Collection "${name}" already exists.`)
+    throw new Error(`Unknown fallback option: ${fallback}`)
+}
+
+const getByName: Collection_Fn_GetByName = async ({ name, fallback }) =>
+{
+    const collection = await _getByName({ name })
+    if (collection) return collection // If found, return it (happy-path)
+    if (fallback === "if_notExist_create") return await _setByName({ name })
+    if (fallback === "if_notExist_fail") throw new Error(`Collection "${name}" not found.`)
+    throw new Error(`Unknown fallback option: ${fallback}`)
+}
+
+const delByName: Collection_Fn_DelByName = async ({ name, fallback }) =>
+{
+    const collection = await _getByName({ name })
+    if (collection) return await _delById({ id: collection.id }) // If found, delete it (happy-path)
+    if (fallback === "if_notExist_ignore") return
+    if (fallback === "if_notExist_fail") throw new Error(`Collection "${name}" not found.`)
+    throw new Error(`Unknown fallback option: ${fallback}`)
+}
+
+// ------------- Export
+
+export const collection = { setByName, getByName, delByName }
+
+*/
+
+
+/**
+ * @type
+ * ```ts
+ * { name: string, fallback: 'if_exist_preserve' | 'if_exist_fail' }
+ * ```
+ * @returns `VariableCollection` | `error`
+ * @throws it might throw an `Error`; use try/catch when you call this function
+ */
+
+/**
+ * @type
+ * ```ts
+ * { name: string, fallback: 'if_notExist_create' | 'if_notExist_fail' }
+ * ```
+ * @returns `VariableCollection` | `error`
+ * @throws it might throw an `Error`; use try/catch when you call this function
+ */
+
+/**
+ * @type
+ * ```ts
+ * { name: string, fallback: 'if_notExist_fail' | 'if_notExist_ignore' }
+ * ```
+ * @returns `VariableCollection` | `undefined` | `error`
+ * @throws it might throw an `Error`; use try/catch when you call this function
+ */
+
+
