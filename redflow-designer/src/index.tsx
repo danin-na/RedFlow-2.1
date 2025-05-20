@@ -8,17 +8,6 @@ const App: React.FC = () =>
   const test = async () =>
   {
 
-    const all = await webflow.getDefaultVariableCollection()
-
-
-
-
-    console.log('-----------------------')
-    console.log(all)
-    const test = all?.id
-    console.log(test)
-    const res = await webflow.removeVariableCollection(test)
-    console.log('res', res)
   }
   test()
 
