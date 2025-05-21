@@ -61,5 +61,4 @@ const setPerc: SetPercFn = async ({ name, val, col }) =>
 }
 
 const set = { number: setNumber, color: setColor, font: setFont, size: setSize, perc: setPerc }
-
 export const variable = { set } 

@@ -103,5 +103,4 @@ const set = { byName: setByName }
 const get = { all: getAll, default: getDef, byId: getById, byName: getByName }
 const del = { byName: delByName, byId: delById }
 const rename = { byCollection: renameByCollection }
-
 export const collection = { set, get, del, rename }
