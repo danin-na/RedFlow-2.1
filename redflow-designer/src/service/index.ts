@@ -1,5 +1,5 @@
-import { variable } from './webflow/webflow.variable'
-import { collection } from './webflow/webflow.collection'
-import { element } from './webflow/webflow.element'
+import { variable } from './wf.variable'
+import { collection } from './wf.collection'
+import { element } from './wf.element'
 
 export const wf = { variable, collection, element }

@@ -1,5 +1,0 @@
-// export { Input } from './shadcn-ui/input'
-// export { Label } from './shadcn-ui/label'
-// export { Button, buttonVariants } from './shadcn-ui/button'
-// export { Tabs, TabsList, TabsTrigger, TabsContent } from './shadcn-ui/tabs'
-// export { Card, CardHeader, CardFooter, CardTitle, CardAction, CardDescription, CardContent } from './shadcn-ui/card'

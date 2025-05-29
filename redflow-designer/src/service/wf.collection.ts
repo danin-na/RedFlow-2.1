@@ -1,3 +1,9 @@
+/**
+ * @example
+ * ```
+ * await wf.collection.set.byName({ name: 'redflow' })
+ * ```
+ */
 type SetByNameFn = (opts: { name: string })
     => Promise<{ collection: VariableCollection; message: null } | { collection: null; message: string }>
 type GetAllFn = ()
@@ -14,6 +20,7 @@ type DelByIdFn = (opts: { id: string })
     => Promise<{ collection: VariableCollection; message: null } | { collection: null; message: string }>
 type RenameByCollection = (opts: { collection: VariableCollection; name: string })
     => Promise<{ collection: VariableCollection; message: null } | { collection: null; message: string }>
+
 
 const setByName: SetByNameFn = async ({ name }) =>
 {
