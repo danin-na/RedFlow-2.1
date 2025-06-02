@@ -4,6 +4,7 @@
     "target": "es6",
     "lib": ["es6", "dom"],
     "typeRoots": ["./node_modules/@types", "./node_modules/@webflow"],
+    "jsx": "react-jsx",
     "esModuleInterop": true,
     "baseUrl": "./",
     "paths": {
@@ -11,7 +12,7 @@
       "react": ["node_modules/react"],
       "react-dom": ["node_modules/react-dom"],
     },
-    "jsx": "react-jsx", // or react ( Maybe )
+    "jsxImportSource": "react",  // Shadcn ( Maybe )
     "module": "ESNext", // Shadcn
     "moduleResolution": "node",  // Shadcn
     "strictNullChecks": true, //

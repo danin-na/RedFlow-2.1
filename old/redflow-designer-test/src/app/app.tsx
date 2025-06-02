@@ -1,7 +1,5 @@
 import React from "react"
 import ReactDOM from "react-dom/client"
-import { wf } from "./service"
-import { MenubarDemo } from "./components/Navigation"
 
 const sizeG: { name: string; val: SizeValue }[] = [
   { "name": "rf-size-g/25", "val": { "unit": "rem", "value": 0.48 } },
@@ -63,56 +61,15 @@ const colors: { name: string; val: ColorValue }[] = [
 
 
 const App: React.FC = () => {
-
-  webflow.setExtensionSize('comfortable')
-
-  async function test() {
-    const { collection: col, message } = await wf.collection.set.byName({ name: 'redflow' })
-
-    if (col) {
-      await Promise.all([
-        ...colors.map(({ name, val }) => wf.variable.set.color({ name, val, col })),
-        ...sizeG.map(({ name, val }) => wf.variable.set.size({ name, val, col })),
-        ...sizeT.map(({ name, val }) => wf.variable.set.size({ name, val, col }))
-      ])
-    } else {
-      webflow.notify({ type: 'Error', message })
-    }
-  }
-
-
-
-  /*
-  const test = async () =>
-  {
-    const { element: root } = await wf.element.get.root()
-    const { DOM } = await wf.element.get.preset()
-    if (root?.children) {
-
-      const DOMElement = await root.append(webflow.elementPresets.DOM);
-
-      if (DOMElement) {
-        const test = DOMElement.setTag('script')
-        DOMElement.setTextContent(JSON.stringify(myJson))
-        const component = await webflow.registerComponent('MyCustomComponent', DOMElement);
-        await wf.element.del.target({ target: DOMElement })
-        const test2 = await component.getRootElement()
-
-
-      }
-            }
-        }
-*/
-
-
-  // npx @tailwindcss/cli -i ./public/tailwind.in.css -o ./public/tailwind.out.css --watch
-
+  webflow.setExtensionSize( 'comfortable' )
   return (
-    <MenubarDemo></MenubarDemo>
+    <>fff</>
   )
 }
 
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
+  document.getElementById( "root" ) as HTMLElement
 )
-root.render(<App />)
+root.render( <App /> )
+
+// npx @tailwindcss/cli -i ./public/tailwind.in.css -o ./public/tailwind.out.css --watch

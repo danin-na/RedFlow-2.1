@@ -1,6 +1,6 @@
+/*
+
 import React from 'react'
-import { ui } from 'redflow'
-const { Menu: m } = ui
 
 type RN = React.ReactNode
 type MenuProps<K extends keyof typeof m> = React.ComponentProps<typeof m[K]>
@@ -52,3 +52,5 @@ export const MenubarDemo: React.FC<MenubarDemoProps> = ({ config }) => (
     ))}
   </m.root>
 )
+
+*/

@@ -5,18 +5,14 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default {
-  entry: "./src/app.tsx",
+  entry: "./src/apps/app.tsx",
   output: {
     filename: "bundle.js",
     path: path.resolve(dirname, "public"),
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".json"],
-    alias: {
-      "@": path.resolve(dirname, "."),
-      "redflow": path.resolve(dirname, "src/redflow.tsx"),
-    },
-
+    alias: { "@redflow": path.resolve(dirname, "src/packages"), },
   },
   module: {
     rules: [
