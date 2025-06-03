@@ -1,6 +1,8 @@
 {
   "name": "redflow-designer",
   "version": "1.0.0",
+  "private": true,
+  "workspaces": ["packages/*"],
   "scripts": {
     "dev": "npm install && concurrently \"webflow extension serve\" \"npm run watch-webpack\"",
     "build": "npm run build-webpack && webflow extension bundle",
