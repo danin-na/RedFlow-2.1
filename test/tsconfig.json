@@ -1,17 +1,14 @@
 {
-  "compilerOptions": {
-    "outDir": "public",
-    "target": "es6",
-    "lib": ["es6", "dom"],
-    "typeRoots": ["./node_modules/@types", "./node_modules/@webflow"],
-    "jsx": "react",
-    "esModuleInterop": true,
-    "baseUrl": "./",
-    "paths": {
-      "react": ["node_modules/react"],
-      "react-dom": ["node_modules/react-dom"]
-    }
-  },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
-  "exclude": ["node_modules"]
+	"compilerOptions": {
+		"target": "es6",
+		"lib": ["es6", "dom"],
+		"jsx": "react-jsx",
+		"module": "ESNext",
+		"moduleResolution": "node",
+		"esModuleInterop": true,
+		"baseUrl": "./",
+	},
+	"include": ["app/**/*.ts", "app/**/*.tsx"],
+	//"references": [{ "path": "./packages/redflow-component" }],
+	"exclude": ["node_modules"]
 }

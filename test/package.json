@@ -1,24 +1,29 @@
 {
   "name": "test",
   "version": "1.0.0",
+  "workspaces": ["packages/*"],
   "scripts": {
     "dev": "npm install && concurrently \"webflow extension serve\" \"npm run watch-webpack\"",
-    "build": "npm run build-webpack && webflow extension bundle",
+    "dev2": "npm install && concurrently \"npm:watch:packages\" \"webflow extension serve\" \"npm run watch-webpack\"",
     "watch-webpack": "webpack --config webpack.config.mjs --mode development --watch",
+    "watch:packages": "npm run --workspace=redflow-component watch",
+    "build": "npm run build-webpack && webflow extension bundle",
     "build-webpack": "webpack --config webpack.config.mjs --mode production"
   },
   "dependencies": {
+    "@tailwindcss/cli": "^4.1.8",
+    "@webflow/designer-extension-typings": "^2.0.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "@webflow/designer-extension-typings": "^2.0.2"
+    "tailwindcss": "^4.1.8"
   },
   "devDependencies": {
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
-    "typescript": "^5.4.5",
     "concurrently": "^8.2.2",
     "ts-loader": "^9.5.1",
+    "typescript": "^5.4.5",
     "webpack": "^5.89.0",
-    "webpack-cli": "^5.1.4"                 
+    "webpack-cli": "^5.1.4"
   }
 }
