@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.json",     // inherit base options
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "declaration": true,
+    "composite": true
+  },
+  "include": ["src"],
+  "references": []   // leave empty or reference other packages if needed
+}
