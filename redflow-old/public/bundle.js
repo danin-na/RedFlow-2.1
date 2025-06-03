@@ -100,13 +100,13 @@ eval("\n\nif (false) // removed by dead control flow\n{} else {\n  module.export
 
 /***/ }),
 
-/***/ "./src/apps/app.tsx":
-/*!**************************!*\
-  !*** ./src/apps/app.tsx ***!
-  \**************************/
+/***/ "./src/app/app.tsx":
+/*!*************************!*\
+  !*** ./src/app/app.tsx ***!
+  \*************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ \"./node_modules/react/jsx-runtime.js\");\n/* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom/client */ \"./node_modules/react-dom/client.js\");\n\n\nconst App = () => {\n    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(\"div\", { className: 'text-red-500', children: \"TEST\" }));\n};\nconst root = react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot(document.getElementById(\"root\"));\nroot.render((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(App, {}));\n\n\n//# sourceURL=webpack://redflow-designer/./src/apps/app.tsx?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ \"./node_modules/react/jsx-runtime.js\");\n/* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom/client */ \"./node_modules/react-dom/client.js\");\n\n\nconst App = () => {\n    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(\"div\", { className: 'text-red-500', children: \"TEST\" }));\n};\nconst root = react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot(document.getElementById(\"root\"));\nroot.render((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(App, {}));\n\n\n//# sourceURL=webpack://redflow-designer/./src/app/app.tsx?");
 
 /***/ })
 
@@ -165,7 +165,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var reac
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	var __webpack_exports__ = __webpack_require__("./src/apps/app.tsx");
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/app/app.tsx");
 /******/ 	
 /******/ })()
 ;

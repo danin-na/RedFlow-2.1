@@ -2,10 +2,15 @@ import { ComponentProps } from 'react'
 import { cn, cva, CvaProps } from 'src/packages/utils'
 import { Slot } from '@radix-ui/react-slot'
 
-export { Button }
-export { ButtonVariants }
+type ButtonType = ComponentProps<'button'> & CvaProps<typeof _Variant_Root> & { asChild?: boolean }
 
-const ButtonVariants = cva(
+function root({ className, variant, size, asChild = false, ...props }: ButtonType)
+{
+  const Comp = asChild ? Slot : 'button'
+  return <Comp data-slot='button' className={cn(_Variant_Root({ variant, size, className }))} {...props} />
+}
+
+const _Variant_Root = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
   {
     variants: {
@@ -32,11 +37,8 @@ const ButtonVariants = cva(
   },
 )
 
-type ButtonType = ComponentProps<'button'> & CvaProps<typeof ButtonVariants> & { asChild?: boolean }
-
-function Button({ className, variant, size, asChild = false, ...props }: ButtonType)
+export
 {
-  const Comp = asChild ? Slot : 'button'
-  return <Comp data-slot='button' className={cn(ButtonVariants({ variant, size, className }))} {...props} />
+  root,
+  _Variant_Root
 }
-

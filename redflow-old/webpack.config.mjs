@@ -5,7 +5,7 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default {
-  entry: "./src/apps/app.tsx",
+  entry: "./src/app/app.tsx",
   output: {
     filename: "bundle.js",
     path: path.resolve(dirname, "public"),
